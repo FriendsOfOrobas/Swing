@@ -17,8 +17,8 @@ public class MyWindow extends JFrame implements ActionListener {
 	private JPasswordField pwd;
 	private JTextField user;
 	private Map<String,char[]> data;
-	private Color plane = new Color(0x152662);
-	private Color font = new Color(0x11bbcc11);
+	private final Color plane = new Color(0x152662);
+
 	public MyWindow(String title) throws HeadlessException {
 		setTitle(title);
 		data = new HashMap<>();
@@ -38,6 +38,7 @@ public class MyWindow extends JFrame implements ActionListener {
 		userPanel.setLayout(new FlowLayout());
 		userPanel.setOpaque(false);
 		JLabel userLabel = new JLabel();
+		Color font = new Color(0x11bbcc11);
 		userLabel.setForeground(font);
 		userLabel.setText("Login:");
 		user = new JTextField(20);
@@ -53,7 +54,7 @@ public class MyWindow extends JFrame implements ActionListener {
 		pwdLabel.setForeground(font);
 		pwdLabel.setText("Password:");
 		pwd = new JPasswordField( 20);
-		pwd.setEchoChar(' ');
+		pwd.setEchoChar('\u200b');
 		pwd.setBackground(Color.pink);
 		pwdPanel.add(pwdLabel);
 		pwdPanel.add(pwd);
@@ -78,26 +79,11 @@ public class MyWindow extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	if (e.getSource() == login)
-		{
-			if (data.containsKey(user.getText()))
-			{
-				if (Arrays.equals(data.get(user.getText()),pwd.getPassword()))
-				{
-					getContentPane().setBackground(new Color(0x386e66));
-				}
-				else
-				{
-					getContentPane().setBackground(new Color(0xaf1101));
-				}
-			}
-			else
-			{
-				getContentPane().setBackground(new Color(0xaf1101));
-			}
-		}
-		else if (e.getSource() == cancel)
-		{
+	if (e.getSource() == login) if (data.containsKey(user.getText()) && Arrays.equals(data.get(user.getText()), pwd.getPassword()) )
+			getContentPane().setBackground(new Color(0x386e66));
+	else
+		getContentPane().setBackground(new Color(0xaf1101));
+		else if (e.getSource() == cancel) {
 			user.setText("");
 			pwd.setText("");
 			getContentPane().setBackground(plane);
